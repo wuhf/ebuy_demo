@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load mptt_tags %}
+
+{% block categories_block %}
+<div class="container">
+    <div class="head-top">
+        <div class="col-sm-2 number">
+        </div>
+        <div class="col-sm-8 h_menu4">
+            <ul class="memenu skyblue">
+                <li class=" grid"><a  href="{% url 'index' %}">主页</a></li>
+                {% for category in categories %}
+                    <li><a  href="{% url 'category' id=category.id %}">{{ category }}</a>
+                        <div class="mepanel">
+                        <div class="row">
+                        {% for cat in category.get_children%}
+                            <div class="col1">
+                                <div class="h_nav">
+                                    <a  href="{% url 'category' id=cat.id%}">
+                                        <h4>{{ cat }}</h4>
+                                    </a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        </div>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

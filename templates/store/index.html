@@ -1,0 +1,49 @@
+{% extends 'store/categories.html' %}
+{% load mptt_tags %}
+{% load staticfiles %}
+{% block content_block %}
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4 number">
+            </div>
+            <form action="/search/" method="get">
+                {% csrf_token %}
+                {{ search_form }}
+                <input type="submit" value="搜索" id="inputquery">
+            </form>
+        </div>
+    </div>
+    <div class="content">
+    <div class="container">
+        <div class="content-top">
+            <h1>商品列表</h1>
+            <div class="content-top1">
+                {% for clo in clo_list %}
+                <div class="col-md-3 col-md2">
+                        <div class="col-md1 simpleCart_shelfItem">
+                            <a herf="{% url 'product' id=clo.id %}" target="_blank">
+                                 <img class="img-responsive" src="{{ MEDIA_URL }}{{ clo.image.url }}" alt="" />
+                            </a>
+                            <span>{{ clo.name|slice:"13" }}</span>
+                            <div class="price">
+                                    <h5 class="item_price">{{ clo.price }}元</h5>
+                                     <input type="hidden" name="chid" value="{{ clo.id }}">
+                                    <a href="#" class="item_add" data_id="{{ clo.id }}" target="_blank">放入购物车</a>
+                                    <div class="clearfix"> </div>
+                            </div>
+                        </div>
+                </div>
+                {% endfor %}
+            <div class="clearfix"> </div>
+            </div>
+        </div>
+    {% include 'store/pagination.html' %}
+    </div>
+    </div>
+{% endblock %}
+{% block js_block %}
+    <script>require(['register', 'logout', 'buy_item']);</script>
+{% endblock %}
+{% block css_block %}
+    <link href="{% static 'css/memenu.css' %}" rel="stylesheet" type="text/css" media="all" />
+{% endblock %}

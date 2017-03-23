@@ -15,7 +15,12 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from . import views
 
 urlpatterns = [
-
+    url(r'^$', view=views.index),
+    url(r'^index/$', view=views.index, name='index'),
+    url(r'^pruduct/(?P<id>\d+)',view=views.product,name='product'),
+    url(r'^category/(?P<id>\d+)',view=views.categpries,name='category'),
+    url(r'^search/$',view=views.search,name='search'),
 ]
