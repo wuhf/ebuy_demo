@@ -39,8 +39,10 @@ INSTALLED_APPS = [
     'mptt',
     'haystack',
     'versatileimagefield',
-'account',
-
+    'account',
+    'rest_framework',
+    'captcha',
+    'envelope'
 ]
 
 MIDDLEWARE = [
@@ -129,10 +131,25 @@ MEDIA_URL = '/uploads/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
 
 HAYSTACK_CONNECTIONS = {
-    'default' : {
+    'default': {
         'ENGINE': 'store.whoosh_cn_backend.WhooshEngine',
         'PATH': os.path.join(BASE_DIR, 'whoose_index'),
     },
 }
 
-HAYSTACK_SIGNAL_PROCESSOR='haystack.signals.RealtimeSignalProcessor'
+HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
+
+AUTH_USER_MODEL = "account.User"
+
+WEBSITE_INFO={"website_name":"Shopping Online of Maizi Edu",
+                "website_name_shortcut":"Shopping",
+                "website_footer":u"在线购物<a href=\"http://127.0.0.1:8000/\">在线购物</a>",
+                "url":"http://127.0.0.1:8000"}
+
+SMTP_CONFIG = {"smtp_server": "smtp.163.com",
+               "email": "18201944853@163.com",
+               "password": "Depo0707",
+               "tls": True}
+
+CORS_ORIGIN_ALLOW_ALL = True
+LOGIN_URL = 'login'
