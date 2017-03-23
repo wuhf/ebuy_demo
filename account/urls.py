@@ -23,5 +23,8 @@ urlpatterns = [
     url(r'^captcha/$', views.show_captcha, name="show_captcha"),
     url(r'^username_check/$', views.account_username_check, name='username_check'),
     url(r'^email_check/$', views.api_email_check, name='email_check'),
-
+    url(r'^reset_password/$', views.UserResetPwdView.as_view(), name='apply_reset_password'),
+    url(r'^reset_email_check/$', views.api_reset_email_check, name='reset_email_check'),
+    url(r'^apply_reset_password/(?P<token>\w+)/$', views.apply_reset_password, name="apply_reset_password"),
+    url(r'^apply_reset_password/$', views.reset_password, name="apply_reset_password"),
 ]

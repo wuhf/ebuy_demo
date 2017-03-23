@@ -145,10 +145,10 @@ WEBSITE_INFO={"website_name":"Shopping Online of Maizi Edu",
                 "website_name_shortcut":"Shopping",
                 "website_footer":u"在线购物<a href=\"http://127.0.0.1:8000/\">在线购物</a>",
                 "url":"http://127.0.0.1:8000"}
-
+from .custome_setting import email_addr, email_password
 SMTP_CONFIG = {"smtp_server": "smtp.163.com",
-               "email": "18201944853@163.com",
-               "password": "Depo0707",
+               "email": email_addr,
+               "password": email_password,
                "tls": True}
 
 CORS_ORIGIN_ALLOW_ALL = True
