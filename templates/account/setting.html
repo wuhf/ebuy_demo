@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block content_block %}
+    <div class="container main">
+        <div class="col-lg-2">
+            <ul class="list-group">
+                <li class="list-group-header">通用设置</li>
+                <li class="list-group-item"><a href="/account/settings/">个人信息</a></li>
+                <li class="list-group-item"><a href="/account/settings/avatar/">更换头像</a></li>
+                <li class="list-group-item"><a href="/account/settings/address/">地址管理</a></li>
+            </ul>
+        </div>
+    {% block right_content_block %}
+        <div class="col-lg-3">
+            <img src="{{ request.user.userprofile.avatar.url }}" class="img-responsive big-avatar">
+        </div>
+    <div class="col-lg-6">
+        <form>
+            <div class="row">
+                <div class="form-group col-md-6"><label>用户名</label>
+                    <input name="username" type="text" class="form-control"
+                           value="{{ request.user.username }}" readonly>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-6"><label>电子邮箱</label>
+                    <input name="email" type="email" class="form-control"
+                           value="{{ request.user.email }}" readonly>
+                </div>
+                <div class="form-group col-md-6"><label>手机</label>
+                    <input name="phone_number" type="text" maxlength="11" minlength="11" id="phone"
+                           class="form-control"
+                           value="{% if request.user.userprofile.phone_number %}{{ request.user.userprofile.phone_number }}{% endif %}">
+                </div>
+                <div class="help-block with-errors"></div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <label>签名</label>
+                    <input name="sign" type="text" maxlength="60" class="form-control" id="sign"
+                           value="{% if request.user.userprofile.sign %}{{ request.user.userprofile.sign }}{% endif %}"
+                           data-error="字数限制在30字以内">
+
+                    <div class="help-block with-errors"></div>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary" name="account_setting">提交</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    {% endblock %}
+    </div>
+{% endblock %}
+
+{% block js_block %} 
+    <script>require(['account_setting']);</script> 
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends  "base.html" %}
+
+{% load staticfiles %}
+
+{% block content_block %}
+    <div class="container main">
+        <div class="col-lg-2">
+            <ul class="list-group">
+                <li class="list-group-header">通用设置</li>
+                <li class="list-group-item"><a href="/account/settings/">个人信息</a></li>
+                <li class="list-group-item"><a href="/account/settings/avatar/">更换头像</a></li>
+            </ul>
+        </div>
+        <div class="col-lg-3">
+            <img src="{{ request.user.userprofile.avatar.url }}" class="img-responsive big-avatar" id="current-avatar">
+            <br>
+        </div>
+        <div class="col-lg-6">
+            <h3>上传自定义头像</h3>
+            <form id="avatar-form" method="post" enctype="multipart/form-data" action=".">
+                {% csrf_token %}
+                <div class="form-group">
+                    <input type="file" class="form-control input-lg" name="avatar" autofocus>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">提交</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

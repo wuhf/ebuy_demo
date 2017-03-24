@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block content_block %}
+    <div class="container main">
+        <div class="col-lg-4">
+            <div class="avatar">
+                <img src="{{ user.userprofile.avatar.url }}" class="img-responsive small-avatar">
+            </div>
+            <div class="list-group col-lg-9">
+                <p class="list-group-item">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                    {{ user.date_joined }}
+                </p>
+            </div>
+        </div>
+        <div class="col-lg-8">
+            <div class="row">
+                <div class="form-group col-md-6"><label>用户名</label>
+                    <input name="username" type="text" class="form-control"
+                           value="{{ request.user.username }}" readonly>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-6"><label>电子邮箱</label>
+                    <input name="email" type="email" class="form-control"
+                           value="{{ request.user.email }}" readonly>
+                </div>
+                <div class="form-group col-md-6"><label>手机</label>
+                    <input name="phone_number" type="text" maxlength="11" minlength="11" id="phone"
+                           class="form-control"
+                           value="{% if request.user.userprofile.phone_number %}{{ request.user.userprofile.phone_number }}{% endif %}"
+                    readonly>
+                </div>
+                <div class="help-block with-errors"></div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <label>签名</label>
+                    <input name="sign" type="text" maxlength="60" class="form-control" id="sign"
+                           value="{% if request.user.userprofile.sign %}{{ request.user.userprofile.sign }}{% endif %}"
+                           data-error="字数限制在30字以内"
+                    readonly>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block js_block %} 
+    <script>require(['bootstrap']);</script> 
+{% endblock %}

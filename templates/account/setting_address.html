@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block content_block %}
+    <div class="container main">
+        <div class="col-lg-2">
+            <ul class="list-group">
+                <li class="list-group-header">通用设置</li>
+                <li class="list-group-item"><a href="/account/settings/">个人信息</a></li>
+                <li class="list-group-item"><a href="/account/settings/avatar/">更换头像</a></li>
+                <li class="list-group-item"><a href="/account/settings/address/">地址管理</a></li>
+            </ul>
+        </div>
+    {% block right_content_block %}
+    <div class="col-lg-6">
+        <form method="post" action="">
+            <input name="address_id" id="address_id" type="hidden" value="-1">
+            <div class="row">
+                <div class="form-group col-md-6"><label>收货人</label>
+                    <input name="name" id="name" type="text" class="form-control"
+                           maxlength="30" placeholder="填写你的真实姓名">
+                </div>
+            </div>
+            <div class="row" id="region">
+                 <select name="sheng" id="s1" required="required"></select>
+                 <select name="shi" id="s2" required="required"></select>
+                 <select name="qu" id="s3" required="required"></select>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-6"><label>详细地址</label>
+                    <input name="detail_info" id="detail_info" type="text" class="form-control"
+                           maxlength="50" required="required">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-6"><label>电子邮箱</label>
+                    <input name="email" id="email" type="email" class="form-control">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-6"><label>手机</label>
+                    <input name="phone_number" type="text" maxlength="11" minlength="11" id="phone_number"
+                           class="form-control" required="required">
+                </div>
+                <div class="help-block with-errors"></div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">提交</button>
+                </div>
+            </div>
+        </form>
+        <div class="row">
+            <ul class="op_address_list mt20" id="addresslist">
+                {% for address in request.user.userprofile.address_info.all %}
+                    <li id='addr-li-{{ address.id }}'>
+                        <p><em class="name" >{{ address.name }}</em>(<em class="phone">{{ address.phone_number }}</em>)</p>
+                        <p class="all-address">{{ address.province }}&nbsp;{{ address.city }}&nbsp;{{ address.region }}&nbsp;{{ address.detail_address }}</p>
+                        <p><em class="email">{{ address.email }}</em></p>
+                        <p class="new_line"><br></p>
+                        <p class="address_action">
+                            <span><a href="#" class="edit float_none" id='edit-addr-{{ address.id }}'><i class="edit_icon"></i>修改</a></span>
+                            <span><a href="#" class="delete float_none" id='delete-addr-{{ address.id }}'><i class="delete_icon"></i>删除</a></span>
+                        </p>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    {% endblock %}
+    </div>
+{% endblock %}
+
+{% block js_block %} 
+    <script>require(['generate_addr', 'add_address']);</script> 
+{% endblock %}
