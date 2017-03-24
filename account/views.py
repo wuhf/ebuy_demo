@@ -1,4 +1,4 @@
-from django.shortcuts import render, render_to_response,HttpResponseRedirect
+from django.shortcuts import render, render_to_response,HttpResponseRedirect,Http404
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view
 from rest_framework import status
@@ -12,6 +12,8 @@ from django.utils import timezone
 import codecs
 from django.conf import settings
 from utils.email import send_email
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -38,6 +40,7 @@ class UserRegisterView(APIView):
                 user = User.objects.create(username=data["username"], email=data["email"])
                 user.set_password(data["password"])
                 user.save()
+                UserProfile.objects.create(user=user)
                 return success_response(u"注册成功！")
         else:
             return serializer_invalid_response(serializer)
@@ -173,3 +176,110 @@ def reset_password(request):
         return success_response(u"密码重置成功")
     else:
         return serializer_invalid_response(serializer)
+
+def user_info(request, username):
+    try:
+        user = User.objects.get(username=username)
+    except User.DoesNotExist:
+        return error_page(request, u"用户不存在")
+
+    return render(request, "account/user_index.html", {"user": user})
+
+class UserSettingView(APIView):
+    @method_decorator(login_required)
+    def get(self, request):
+        return render(request, "account/setting.html")
+
+    @method_decorator(login_required)
+    def post(self, request):
+        serializer = EditUserProfileSerializer(data=request.data)
+        if serializer.is_valid():
+            data = serializer.data
+            user_profile = request.user.userprofile
+            if data["sign"]:
+                user_profile.sign = data["sign"]
+                print('sign ', user_profile.sign)
+            if data["phone_number"]:
+                user_profile.phone_number = data["phone_number"]
+
+            user_profile.save()
+            return success_response(u"修改成功")
+        else:
+            return serializer_invalid_response(serializer)
+
+class UserAvatarView(APIView):
+    @method_decorator(login_required)
+    def get(self, request):
+        return render(request, "account/setting_avatar.html")
+
+    @method_decorator(login_required)
+    def post(self, request):
+        try:
+            f = request.FILES["avatar"]
+        except Exception:
+            return Http404()
+
+        if f.size > 1024 * 1024:
+            return Http404()
+
+        if os.path.splitext(f.name)[-1].lower() not in [".gif", ".jpg", ".jpeg", ".bmp", ".png"]:
+            return Http404()
+
+        user_profile = request.user.userprofile
+        user_profile.avatar = f
+        user_profile.save()
+        return render(request, 'account/setting.html')
+
+class UserAddressView(APIView):
+    @method_decorator(login_required)
+    def get(self, request):
+        return render(request, "account/setting_address.html")
+
+    @method_decorator(login_required)
+    def post(self, request):
+        serializer = AddAddressSerializer(data=request.data)
+        if serializer.is_valid():
+            data = serializer.data
+            print(type(request.user),dir(request.user))
+            user_profile = request.user.userprofile
+            is_modify = False
+            try:
+                address_id = data['address_id']
+                address = Address.objects.get(pk=address_id)
+                is_modify = True
+                address.name = data['name']
+                address.phone_number = data['phone_number']
+                address.province = data['province']
+                address.city = data['city']
+                address.region = data['region']
+                address.email = data['email']
+                address.detail_address = data['detail_address']
+                address.save()
+            except Address.DoesNotExist:
+                address = Address(name=data['name']
+                                  , phone_number=data['phone_number']
+                                  , province=data['province']
+                                  , city=data['city']
+                                  , region=data['region']
+                                  , email=data['email']
+                                  , detail_address=data['detail_address'])
+                address.save()
+                user_profile.address_info.add(address)
+
+
+            user_profile.save()
+            return success_response({'id':address.id, 'is_modify':is_modify})
+        else:
+            return serializer_invalid_response(serializer)
+
+    @method_decorator(login_required)
+    def delete(self, request):
+        address_id = request.data['address_id']
+        try:
+            address = Address.objects.get(pk=address_id)
+            request.user.userprofile.address_info.remove(address)
+            address.delete()
+        except Address.DoesNotExist:
+            return error_response('not exit')
+
+        return success_response(address_id)

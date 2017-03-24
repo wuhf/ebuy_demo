@@ -27,4 +27,8 @@ urlpatterns = [
     url(r'^reset_email_check/$', views.api_reset_email_check, name='reset_email_check'),
     url(r'^apply_reset_password/(?P<token>\w+)/$', views.apply_reset_password, name="apply_reset_password"),
     url(r'^apply_reset_password/$', views.reset_password, name="apply_reset_password"),
+    url(r'^account/user/(?P<username>\w+)/$', views.user_info, name="user_info"),
+    url(r'^account/settings/$', views.UserSettingView.as_view(), name="user_setting"),
+    url(r'^account/settings/avatar/$', views.UserAvatarView.as_view(), name="user_avatar"),
+    url(r'^account/settings/address/$', views.UserAddressView.as_view(), name="user_address"),
 ]

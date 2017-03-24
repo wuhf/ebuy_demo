@@ -56,3 +56,28 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.username
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User)
+    avatar = models.ImageField(upload_to='avatar/', default = '/avatar/avatar.png')
+    phone_number = models.CharField(max_length=15, blank=True, null=True)
+    sign = models.CharField(max_length=100, blank=True, null=True)
+    address_info = models.ManyToManyField('Address')
+
+    class Meta:
+        db_table = "user_profile"
+
+    def __str__(self):
+        return self.user.username
+
+class Address(models.Model):
+    name = models.CharField(max_length=100)
+    province = models.CharField(max_length=30)
+    city = models.CharField(max_length=30)
+    region = models.CharField(max_length=30)
+    detail_address = models.CharField(max_length=200)
+    phone_number = models.CharField(max_length=11)
+    email = models.EmailField(max_length=100, blank=True, null=True)
+
+    def __str__(self):
+        return self.name
