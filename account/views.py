@@ -14,6 +14,7 @@ from django.conf import settings
 from utils.email import send_email
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
+from store.models import Cart
 
 
 # Create your views here.
@@ -40,7 +41,8 @@ class UserRegisterView(APIView):
                 user = User.objects.create(username=data["username"], email=data["email"])
                 user.set_password(data["password"])
                 user.save()
-                UserProfile.objects.create(user=user)
+                cart = Cart.objects.create()#初始化购物车
+                UserProfile.objects.create(user=user,cart=cart)
                 return success_response(u"注册成功！")
         else:
             return serializer_invalid_response(serializer)
@@ -240,7 +242,6 @@ class UserAddressView(APIView):
         serializer = AddAddressSerializer(data=request.data)
         if serializer.is_valid():
             data = serializer.data
-            print(type(request.user),dir(request.user))
             user_profile = request.user.userprofile
             is_modify = False
             try:

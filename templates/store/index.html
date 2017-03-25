@@ -21,7 +21,7 @@
                 {% for clo in clo_list %}
                 <div class="col-md-3 col-md2">
                         <div class="col-md1 simpleCart_shelfItem">
-                            <a herf="{% url 'product' id=clo.id %}" target="_blank">
+                            <a href="{% url 'product' id=clo.id %}" target="_blank">
                                  <img class="img-responsive" src="{{ MEDIA_URL }}{{ clo.image.url }}" alt="" />
                             </a>
                             <span>{{ clo.name|slice:"13" }}</span>

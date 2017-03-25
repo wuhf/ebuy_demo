@@ -20,7 +20,12 @@ from . import views
 urlpatterns = [
     url(r'^$', view=views.index),
     url(r'^index/$', view=views.index, name='index'),
-    url(r'^pruduct/(?P<id>\d+)',view=views.product,name='product'),
-    url(r'^category/(?P<id>\d+)',view=views.categpries,name='category'),
-    url(r'^search/$',view=views.search,name='search'),
+    url(r'^pruduct/(?P<id>\d+)', view=views.product, name='product'),
+    url(r'^category/(?P<id>\d+)', view=views.categpries, name='category'),
+    url(r'^search/$', view=views.search, name='search'),
+    url(r'^view_cart/$', views.view_cart, name='view_cart'),
+    url(r'^add_to_cart/$', views.AddProductToCartView.as_view(), name='add_to_cart'),
+    url(r'^cartnum_op/$', views.CartItemOpView.as_view(), name='cartnum_op'),
+    url(r'^delete_cart_item/$', views.DeleteCartItemView.as_view(), name='delete_cart_item'),
+    url(r'^clear_cart/$', views.CartClearView.as_view(), name='clear_cart'),
 ]

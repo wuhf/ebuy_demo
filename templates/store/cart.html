@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block content_block %}
+<div class="container">
+	<div class="check-out">
+		<h1>购物车</h1>
+        <table>
+        <div id="cart_items">
+         {% for item in cart.cartitems.all %}
+              <tr class="cart_item" cart_id="{{ item.id }}">
+                <td class="ring-in"><a href="{% url 'product' id=item.product.id %}" class="at-in">
+                    <img src="{{ MEDIA_URL }}{{ item.product.image.url }}" class="img-responsive" alt=""></a>
+                <div class="sed">
+                    <h5>{{ item.product.name }}</h5>
+                    <p>{{ item.product.desc }}</p>
+                </div>
+                <div class="clearfix"> </div></td>
+                <td class="count" >
+                    <input type='button' value='-' class='qtyminus' />
+                    <input type='text' name='quantity' value="{{ item.num }}" class='qty' />
+                    <input type='button' value='+' class='qtyplus' />
+                </td>
+                <td >{{ item.product.price }}元</td>
+                <td >{{ item.get_price }}元</td>
+                <td ><a href="#" class="delete_cart_item">删除</a></td>
+              </tr>
+            {% endfor %}
+        </div>
+          <tr>
+              <td>
+                  <a href="#" class="to-buy">去结算</a>
+              </td>
+              <td id="total_price">
+                  总价：{{ cart.total_price }}元
+              </td>
+          </tr>
+          <tr>
+              <td><a href="/clearcart/" class="clear_cart">清空</a>
+          </tr>
+	    </table>
+        <div class="clearfix">
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js_block %}
+    <script>require(['cart']);</script>
+{% endblock %}

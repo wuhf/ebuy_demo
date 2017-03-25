@@ -5,7 +5,7 @@
     <title>时尚衣橱</title>
     <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" type="text/css" media="all"/>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/lib/jquery/jquery.min.js' %}"></script>
     <!-- Custom Theme files -->
     <!--theme-style-->
     <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css" media="all"/>
@@ -22,13 +22,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     } </script>
     <!-- start menu -->
     <link href="{% static 'css/memenu.css' %}" rel="stylesheet" type="text/css" media="all"/>
-    <script type="text/javascript" src="{% static 'js/memenu.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/lib/ui/memenu.js' %}"></script>
     <script>$(document).ready(function () {
         $(".memenu").memenu();
     });</script>
-    <script src="{% static 'js/simpleCart.min.js' %}"></script>
+    <script src="{% static 'js/lib/ui/simpleCart.min.js' %}"></script>
     <!-- slide -->
-    <script src="{% static 'js/responsiveslides.min.js' %}"></script>
+    <script src="{% static 'js/lib/ui/responsiveslides.min.js' %}"></script>
     <script>
         $(function () {
             $("#slider").responsiveSlides({
@@ -68,11 +68,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 <li><a href="/logout/">退出</a></li>
                             </ul>
                         </li>
-{#                        <li class="cart box_1">#}
-{#                            <a href="{% url 'view_cart' %}">#}
-{#                                <img src="{% static 'imgs/cart.png' %}" alt=""/>#}
-{#                            </a>#}
-{#                        </li>#}
+                        <li class="cart box_1">
+                            <a href="{% url 'view_cart' %}">
+                                <img src="{% static 'imgs/cart.png' %}" alt=""/>
+                            </a>
+                        </li>
                     </ul>
                 {% else %}
                     <ul class="nav navbar-nav navbar-right">
