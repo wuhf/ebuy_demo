@@ -28,4 +28,5 @@ urlpatterns = [
     url(r'^cartnum_op/$', views.CartItemOpView.as_view(), name='cartnum_op'),
     url(r'^delete_cart_item/$', views.DeleteCartItemView.as_view(), name='delete_cart_item'),
     url(r'^clear_cart/$', views.CartClearView.as_view(), name='clear_cart'),
+    url(r'^order/$',views.OrderView.as_view(),name="order"),
 ]

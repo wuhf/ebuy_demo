@@ -42,7 +42,8 @@
     </div>
 {% endblock %}
 {% block js_block %}
-    <script>require(['register', 'logout', 'buy_item']);</script>
+{#    <script>require(['register', 'logout', 'buy_item']);</script>#}
+    <script>require(['logout', 'buy_item']);</script>
 {% endblock %}
 {% block css_block %}
     <link href="{% static 'css/memenu.css' %}" rel="stylesheet" type="text/css" media="all" />

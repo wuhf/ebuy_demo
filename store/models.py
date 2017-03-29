@@ -3,6 +3,7 @@ from mptt.models import MPTTModel
 from mptt.managers import TreeManager
 from django.db.models import Manager
 from versatileimagefield.fields import PPOIField,VersatileImageField
+from django.utils import timezone
 
 # Create your models here.
 
@@ -200,3 +201,18 @@ class Cart(models.Model):
             cartitem.product.save()
             self.cartitems.remove(cartitem)
             cartitem.delete()
+
+
+class Invoice(models.Model):
+    type = models.IntegerField(default=0)
+    title = models.CharField(max_length=200)
+    content = models.CharField(max_length=600)
+
+class Order(models.Model):
+    items = models.ManyToManyField(CartItem)
+    address = models.ForeignKey('account.Address')
+    status = models.IntegerField(default=0)
+    timestamp = models.DateTimeField(auto_created=True,default=timezone.now)
+    notice = models.CharField(max_length=600,blank=True)
+    invoice = models.ForeignKey(Invoice,blank=True,null=True)
+

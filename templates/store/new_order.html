@@ -1,0 +1,33 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="{% static 'css/new_css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/new_css/swiper.min.css' %}">
+    <title>Document</title>
+</head>
+<body>
+<nav id="nav">
+    <ul class="navlist">
+        <li>{{ request.user.username }}</li>
+    </ul>
+</nav>
+<section class="order_content">
+    <div class="addresslist">
+        <h4 class="add_title">收货人地址：</h4>
+        {% for address in request.user.userprofile.address_info.all %}
+            <ul class="address_item">
+                {% if forloop.first %}
+            </ul>
+        {% endfor %}
+    </div>
+</section>
+</body>
+</html>

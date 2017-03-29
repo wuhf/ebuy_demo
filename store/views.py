@@ -142,3 +142,8 @@ class CartClearView(APIView):
         cart.clear()
 
         return success_response('success')
+
+class OrderView(APIView):
+    @method_decorator(login_required)
+    def get(self,request):
+        return render(request,'store/new_order.html')
